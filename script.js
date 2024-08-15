@@ -49,6 +49,7 @@ form.onsubmit = (event) => {
     expenseAdd(newExpense);
 }
 
+//Cria o item da lista
 function expenseAdd(newExpense) {
     try {
         //Cria elemento para adicionar o item (li) lista
@@ -137,3 +138,14 @@ function updateTotals() {
         alert("Não foi possível atualizar os totais.");
     }
 }
+
+//Evento para capturar os cliques nos items da lista
+expenseList.addEventListener("click", function(event) {
+    if(event.target.classList.contains("remove-icon")){
+        //Obtém o item(li) inteiro, pai do elemento button(x)
+        const item = event.target.closest(".expense");
+        item.remove();
+    }
+
+    updateTotals();
+});
