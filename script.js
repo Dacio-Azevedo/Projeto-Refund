@@ -111,7 +111,7 @@ function updateTotals() {
         for(let item = 0; item < items.length; item++){
             const itemAmount = items[item].querySelector(".expense-amount");
             //Remover caracteres não númericos e substitui a (,) pelo (.)
-            let value = itemAmount.textContent.replace(/[^\d]/g, "").replace(",",".");
+            let value = itemAmount.textContent.replace(/[^\d,]/g, "").replace(",",".");
 
             value = Number(value); //Converte value para Number
 
@@ -122,10 +122,15 @@ function updateTotals() {
             total += value;
         }
 
-        expensesTotal.textContent = String(total).replace(",",".").toLocaleString("pt-br",{
-            style: "currency",
-            currency: "BRL"
-        });
+        //Criar small para adicionar o R$
+        const symbolBRL = document.createElement("small");
+        symbolBRL.textContent = "R$";
+        
+        //Formata o valor e remove o R$, esse que será exibido pelo small
+        total = formatCurrencyBRL(total).toUpperCase().replace("R$","");
+
+        expensesTotal.innerHTML = "";
+        expensesTotal.append(symbolBRL, total);
 
     } catch (error) {
         console.log(error);
